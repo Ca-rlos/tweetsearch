@@ -5,7 +5,7 @@ const bigquery = new BigQuery();
 exports.recentTweet = async function recentTweet(req, res) {
     try {
         const options = {headers: {'Authorization': 'Bearer ' + process.env.BEARER_TOKEN}};
-        const request = await axios.get('https://api.twitter.com/2/users/' + req.query.user_id + '/tweets', options);
+        const request = await axios.get('https://api.twitter.com/2/users/' + req.query.user_id + '/tweets?max_results=100', options);
         const datasetId = 'twitter';
         const tableId = 'recent_tweets';
         request.data.data.forEach(tweet => {bigquery
@@ -21,5 +21,5 @@ exports.recentTweet = async function recentTweet(req, res) {
     } catch (error) {
 	    console.log(error);
         res.send('error!');
-	}
+    }
 };
